@@ -12,7 +12,7 @@ Spring task底层使用ConcurrentTaskScheduler来执行每个任务, 而Concurre
 写一个继承TaskInterceptor的Interceptor类.
 
 ```
-public class LogInterceptor implements TaskInterceptor {
+public class MyInterceptor implements TaskInterceptor {
 
     @Override
     public boolean beforeExecute(TaskContext context) throws Exception {
@@ -42,13 +42,13 @@ public class ScheduleConfig extends ExtendedSchedulingConfigurer {
     @Override
     protected List<TaskInterceptor> registerTaskInterceptor() {
         List<TaskInterceptor> interceptors = super.registerTaskInterceptor();
-        interceptors.add(logInterceptor());
+        interceptors.add(myInterceptor());
         return interceptors;
     }
 
     @Bean
-    public LogInterceptor logInterceptor() {
-        return new LogInterceptor();
+    public MyInterceptor myInterceptor() {
+        return new MyInterceptor();
     }
 }
 ```
