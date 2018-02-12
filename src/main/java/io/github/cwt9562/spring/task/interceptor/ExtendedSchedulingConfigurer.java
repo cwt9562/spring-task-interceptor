@@ -17,7 +17,10 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @EnableScheduling
 public class ExtendedSchedulingConfigurer implements SchedulingConfigurer {
 
-    @Bean(name = "taskInterceptorRegister")
+    public static final String BEAN_NAME_TASK_INTERCEPTOR_REGISTER = "taskInterceptorRegister";
+    public static final String BEAN_NAME_CONCURRENT_TASK_SCHEDULER = "concurrentTaskScheduler";
+
+    @Bean(name = BEAN_NAME_TASK_INTERCEPTOR_REGISTER)
     public TaskInterceptorRegister taskInterceptorRegister() {
         TaskInterceptorRegister taskInterceptorRegister = new TaskInterceptorRegister();
         List<TaskInterceptor> interceptors = registerTaskInterceptor();
@@ -33,7 +36,7 @@ public class ExtendedSchedulingConfigurer implements SchedulingConfigurer {
         return new ArrayList<>();
     }
 
-    @Bean(name = "concurrentTaskScheduler")
+    @Bean(name = BEAN_NAME_CONCURRENT_TASK_SCHEDULER)
     public ConcurrentTaskScheduler concurrentTaskScheduler() {
         // see: org.springframework.scheduling.config.ScheduledTaskRegistrar.scheduleTasks()
         return new ExtendedConcurrentTaskScheduler(Executors.newSingleThreadScheduledExecutor(), taskInterceptorRegister());
